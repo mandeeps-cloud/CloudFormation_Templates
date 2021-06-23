@@ -1,0 +1,30 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudFormation template for s3 bucket
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: !Sub 'encryptedbucket-${AWS::Region}-${AWS::AccountId}'
+      VersioningConfiguration:
+        Status: Enabled
+      
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+      BucketEncryption: 
+        ServerSideEncryptionConfiguration: 
+        - ServerSideEncryptionByDefault:
+            SSEAlgorithm: AES256
+    
+    DeletionPolicy: Delete
+
+Outputs:
+  S3Bucket:
+    Description: Bucket Created using this template.
+    Value: !Ref S3Bucket

@@ -1,3 +1,7 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Clean S3 Bucket before Deleting"
+
 Parameters:
   S3BucketName:
     Type: String

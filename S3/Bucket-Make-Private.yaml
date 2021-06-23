@@ -1,0 +1,25 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudFormation template for s3 bucket
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: ameintu871
+      VersioningConfiguration:
+        Status: Enabled
+      
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+    DeletionPolicy: Delete
+    
+Outputs:
+  S3Bucket:
+    Description: Bucket Created using this template.
+    Value: !Ref S3Bucket

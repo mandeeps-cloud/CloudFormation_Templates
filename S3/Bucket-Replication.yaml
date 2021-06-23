@@ -1,0 +1,38 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudFormation template for s3 bucket
+
+Resources:
+  S3DestinationBucket:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: ameintu872-destination
+      VersioningConfiguration:
+        Status: Enabled
+
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: ameintu872
+      VersioningConfiguration:
+        Status: Enabled
+      
+      # Need to Create role https://docs.aws.amazon.com/AmazonS3/latest/userguide/setting-repl-config-perm-overview.html
+      ReplicationConfiguration:
+        Role: 'arn:aws:iam::123456789012:role/replication_role'
+        Rules:
+          - Id: MyRule1
+            Status: Enabled
+            Prefix: MyPrefix
+            Destination:
+              Bucket: 'arn:aws:s3:::ameintu872-destination'
+              StorageClass: STANDARD
+          - Status: Enabled
+            Prefix: MyOtherPrefix
+            Destination:
+              Bucket: 'arn:aws:s3:::ameintu872-destination'
+
+Outputs:
+  S3Bucket:
+    Description: Bucket Created using this template.
+    Value: !Ref S3Bucket
