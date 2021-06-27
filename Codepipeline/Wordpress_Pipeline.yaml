@@ -11,9 +11,11 @@ Description: >
 
 Parameters:
   PipelineName:
+    Default: amit-pipeline
     Description: A name for pipeline
     Type: String
   S3Bucket:
+    Default: my-code-pipeline-bucket
     Description: The name of the S3 bucket that contains the source artifact, which must be in the same region as this stack
     Type: String
   SourceS3Key:
@@ -45,6 +47,7 @@ Parameters:
     Description: A name for the production WordPress stack change set
     Type: String
   Email:
+    Default: amitkumargupta@hotmail.com
     Description: The email address where CodePipeline sends pipeline notifications
     Type: String
 
