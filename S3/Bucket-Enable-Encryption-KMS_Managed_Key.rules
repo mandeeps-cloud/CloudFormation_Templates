@@ -1,0 +1,20 @@
+let buckets = Resources.*[ Type == 'AWS::S3::Bucket' ]
+
+rule delta_s3_version_enable when %buckets !empty{
+    %buckets.Properties {
+        VersioningConfiguration.Status == 'Enabled'
+    }
+}
+
+rule delta_s3_bucket_kms_encryption when %buckets !empty {
+    %buckets.Properties {
+        BucketEncryption.ServerSideEncryptionConfiguration[*] {
+            ServerSideEncryptionByDefault.SSEAlgorithm == 'aws:kms'
+            ServerSideEncryptionByDefault.KMSMasterKeyID == 'arn:aws:kms:ap-south-1:233402516001:key/f1043df7-03a9-45f8-897a-7c2d8285ae2d'
+        }
+    }
+}
+
+rule delta_s3_bucket_deletion_policy when %buckets !empty{
+    %buckets.DeletionPolicy == 'Delete'
+}

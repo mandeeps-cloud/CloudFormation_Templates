@@ -1,0 +1,19 @@
+let buckets = Resources.*[ Type == 'AWS::S3::Bucket' ]
+
+rule delta_s3_version_enable when %buckets !empty{
+    %buckets.Properties {
+        VersioningConfiguration.Status == 'Enabled'
+    }
+}
+
+rule delta_s3_bucket_encryption when %buckets !empty {
+    %buckets.Properties {
+        BucketEncryption.ServerSideEncryptionConfiguration[*] {
+            ServerSideEncryptionByDefault.SSEAlgorithm == 'AES256'
+        }
+    }
+}
+
+rule delta_s3_bucket_deletion_policy when %buckets !empty{
+    %buckets.DeletionPolicy == 'Delete'
+}
